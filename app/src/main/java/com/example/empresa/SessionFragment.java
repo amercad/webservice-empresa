@@ -10,11 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -36,11 +40,12 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
         etClave=vista.findViewById(R.id.etclave);
         btnIngresar=vista.findViewById(R.id.btingresar);
         tvRegistrar=vista.findViewById(R.id.tvregistrar);
+        rq = Volley.newRequestQueue(getContext());
 
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                iniciarSession();
             }
         });
 
@@ -49,11 +54,31 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
 
     }
 
+    private void iniciarSession() {
+        String correo = etCorreo.getText().toString(),
+               clave = etClave.getText().toString();
+
+        if (correo.isEmpty() || clave.isEmpty()) {
+            Toast.makeText(getContext(), "Los campos son obligatorio", Toast.LENGTH_SHORT).show();
+            etCorreo.requestFocus();
+        } else {
+            String url = "http://172.16.59.198:8080/WebService/Session.php?correo="+correo+"&clave="+clave;
+            jrq = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            rq.add(jrq);
+        }
+
+
+
+
+    }
+
     @Override
     public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "Error al iniciar la session", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
+        Toast.makeText(getContext(), "Session iniciada", Toast.LENGTH_SHORT).show();
     }
 }
