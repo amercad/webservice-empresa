@@ -1,5 +1,6 @@
 package com.example.empresa;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,14 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
             @Override
             public void onClick(View v) {
                 iniciarSession();
+            }
+        });
+
+        tvRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UsuarioActivity.class);
+                startActivity(intent);
             }
         });
 
