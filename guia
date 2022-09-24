@@ -1,0 +1,16 @@
+manifiests
+<uses-permission android:name="android.permission.INTERNET"/>
+
+
+MAIN_ACTIVITI
+
+    android:id="@+id/Escenario"
+
+MAIN
+	FragmentManager fm = getSupportFragmentManager();
+	fm.beginTransaction().replace(R.id.Escenario,new SessionFragment()).commit();
+	
+	
+	
+DEPENDENCIA
+	implementation 'com.android.volley:volley:1.2.1'
