@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.empresa"
-        minSdk 28
+        minSdk 25
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-
+    compileOnly "org.projectlombok:lombok:1.18.24"
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
