@@ -53,8 +53,7 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
         tvRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), UsuarioActivity.class);
-                startActivity(intent);
+                registarse();
             }
         });
 
@@ -76,9 +75,11 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
             rq.add(jrq);
         }
 
+    }
 
-
-
+    private void registarse() {
+        Intent intentUsuario = new Intent(getContext(), UsuarioActivity.class);
+        startActivity(intentUsuario);
     }
 
     @Override
