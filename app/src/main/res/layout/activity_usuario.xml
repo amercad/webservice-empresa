@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="CheckBox" />
+                android:text="Activo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,6 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
+                    android:cursorVisible="false"
+                    android:onClick="guardar"
                     android:text="Agregarrdar"
                     android:textSize="12sp" />
 

@@ -15,11 +15,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UsuarioActivity extends AppCompatActivity implements Response.Listener<JSONObject>,Response.ErrorListener {
 
@@ -29,7 +33,7 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
     RequestQueue rq;
     JsonRequest jrq;
 
-    String usr, nombre, clave, correo;
+    String usr, nombre, clave, correo, url;
 
     byte sw;
 
@@ -56,6 +60,7 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
+        limpiarCampos();
     }
 
     @Override
@@ -99,10 +104,48 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
             etUsuario.requestFocus();
 
         } else {
-
-            if (sw == 1) {
-
+            if (sw == 0) {
+                url = "http://172.16.59.198:8080/WebService/registrocorreo.php";
+            } else {
+                url = "http://172.16.59.198:8080/WebService/actualiza.php";
+                Toast.makeText(getApplicationContext(), "Actualizar!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+                sw = 0;
             }
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            limpiarCampos();
+                            Toast.makeText(getApplicationContext(), "Registro de usuario realizado!", Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Registro de usuario incorrecto!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("usr",etUsuario.getText().toString().trim());
+                    params.put("nombre", etNombre.getText().toString().trim());
+                    params.put("correo",etCorreo.getText().toString().trim());
+                    params.put("clave",etClave.getText().toString().trim());
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(postRequest);
+
+            /*if (sw == 1) {
+
+            }*/
 
         }
 
@@ -115,7 +158,7 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
             Toast.makeText(this, "El campo usuario es obligatorio", Toast.LENGTH_SHORT).show();
             etUsuario.requestFocus();
         } else {
-            String url = "http://172.16.59.198:8080/WebService/consulta.php?usr="+usr;
+            url = "http://172.16.59.198:8080/WebService/consulta.php?usr="+usr;
             jrq = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             rq.add(jrq);
         }
