@@ -57,6 +57,7 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
             }
         });
 
+
         return vista;
 
 
@@ -70,7 +71,7 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
             Toast.makeText(getContext(), "Los campos son obligatorio", Toast.LENGTH_SHORT).show();
             etCorreo.requestFocus();
         } else {
-            String url = "http://172.16.59.198:8080/WebService/Session.php?correo="+correo+"&clave="+clave;
+            String url = "http://192.168.1.7:80/webserver-back/Session.php?correo="+correo+"&clave="+clave;
             jrq = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             rq.add(jrq);
         }
@@ -89,6 +90,7 @@ public class SessionFragment extends Fragment implements Response.Listener<JSONO
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(getContext(), "Session iniciada", Toast.LENGTH_SHORT).show();
+        Intent intentUsuario = new Intent(getContext(), LibroActivity.class);
+        startActivity(intentUsuario);
     }
 }

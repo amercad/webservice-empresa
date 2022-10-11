@@ -105,10 +105,9 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
 
         } else {
             if (sw == 0) {
-                url = "http://172.16.59.198:8080/WebService/registrocorreo.php";
+                url = "http://192.168.1.7:80/webserver-back/registrocorreo.php";
             } else {
-                url = "http://172.16.59.198:8080/WebService/actualiza.php";
-                Toast.makeText(getApplicationContext(), "Actualizar!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+                url = "http://192.168.1.7:80/webserver-back/actualiza.php";
                 sw = 0;
             }
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -143,9 +142,91 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(postRequest);
 
-            /*if (sw == 1) {
+        }
 
-            }*/
+    }
+
+    public void eliminar(View view) {
+        usr = etUsuario.getText().toString();
+
+        if (usr.isEmpty()) {
+
+            Toast.makeText(this, "El campo usuario es requerido", Toast.LENGTH_SHORT).show();
+            etUsuario.requestFocus();
+
+        } else {
+            url = "http://192.168.1.7:80/webserver-back/elimina.php";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            limpiarCampos();
+                            Toast.makeText(getApplicationContext(), "Registro eliminado!", Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "El registro es incorrecto!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("usr",etUsuario.getText().toString().trim());
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(postRequest);
+
+        }
+
+    }
+
+    public void anular(View view) {
+        usr = etUsuario.getText().toString();
+
+        if (usr.isEmpty()) {
+
+            Toast.makeText(this, "El campo usuario es requerido", Toast.LENGTH_SHORT).show();
+            etUsuario.requestFocus();
+
+        } else {
+            url = "http://192.168.1.7:80/webserver-back/anula.php";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            limpiarCampos();
+                            Toast.makeText(getApplicationContext(), "Registro inactivado!", Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "El registro es incorrecto!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("usr",etUsuario.getText().toString().trim());
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(postRequest);
 
         }
 
@@ -158,7 +239,7 @@ public class UsuarioActivity extends AppCompatActivity implements Response.Liste
             Toast.makeText(this, "El campo usuario es obligatorio", Toast.LENGTH_SHORT).show();
             etUsuario.requestFocus();
         } else {
-            url = "http://172.16.59.198:8080/WebService/consulta.php?usr="+usr;
+            url = "http://192.168.1.7:80/webserver-back/consulta.php?usr="+usr;
             jrq = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             rq.add(jrq);
         }

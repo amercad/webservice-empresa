@@ -85,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:onClick="eliminar"
                     android:text="Eliminar"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -111,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:onClick="anular"
                     android:text="ANULAR"
                     android:textSize="12sp" />
             </LinearLayout>
